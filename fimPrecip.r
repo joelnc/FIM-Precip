@@ -23,7 +23,8 @@ QParameterCd <- "00045"
 StartDate <- "2007-10-01"
 ##EndDate <- "2012-09-30"
 Daily <- readNWISuv(siteNumber, QParameterCd,
-                    startDate=StartDate, endDate="")
+                    startDate=StartDate, endDate="",
+                    tz="America/New_York")
 
 Daily <- Daily[order(Daily$dateTime),]
 
@@ -145,34 +146,58 @@ plot(siteDF$Rain30min6hr[useTSS], siteDF$Result[useTSS], pch=16)
 plot(siteDF$Rain30min12hr[useTSS], siteDF$Result[useTSS], pch=16)
 plot(siteDF$DaysTenth[useTSS], siteDF$Result[useTSS], pch=16)
 
-
-##
-dataSet <- Daily[10000:20300,c(1,4)]
-plot(dataSet)
-
-
-
-temp <- 0
-for (i in 1:(nrow(dataSet)-12)) {
-        fI <- nrow(dataSet)-11-i
-        tI <- nrow(dataSet)+1-i
-        temp[i] <- sum(dataSet$X_00045_00000[fI:tI],na.rm=TRUE)
-        if (max(temp)>0.099)
-            break
-}
-
-length(temp)/(12*24)
+## Plot SSC vs....
+dev.new()
+useSSC <- which(siteDF$Analyte=="Suspended Sediment Concentration")
+par(mfrow=c(3,3))
+plot(siteDF$Coldate[useSSC], siteDF$Result[useSSC], pch=16)
+plot(siteDF$Rain6[useSSC], siteDF$Result[useSSC], pch=16)
+plot(siteDF$Rain12[useSSC], siteDF$Result[useSSC], pch=16)
+plot(siteDF$Rain24[useSSC], siteDF$Result[useSSC], pch=16)
+plot(siteDF$Rain36[useSSC], siteDF$Result[useSSC], pch=16)
+plot(siteDF$Rain30min6hr[useSSC], siteDF$Result[useSSC], pch=16)
+plot(siteDF$Rain30min12hr[useSSC], siteDF$Result[useSSC], pch=16)
+plot(siteDF$DaysTenth[useSSC], siteDF$Result[useSSC], pch=16)
 
 
+## Plot TP vs....
+dev.new()
+useTP <- which(siteDF$Analyte=="Total Phosphorus")
+par(mfrow=c(3,3))
+plot(siteDF$Coldate[useTP], siteDF$Result[useTP], pch=16)
+plot(siteDF$Rain6[useTP], siteDF$Result[useTP], pch=16)
+plot(siteDF$Rain12[useTP], siteDF$Result[useTP], pch=16)
+plot(siteDF$Rain24[useTP], siteDF$Result[useTP], pch=16)
+plot(siteDF$Rain36[useTP], siteDF$Result[useTP], pch=16)
+plot(siteDF$Rain30min6hr[useTP], siteDF$Result[useTP], pch=16)
+plot(siteDF$Rain30min12hr[useTP], siteDF$Result[useTP], pch=16)
+plot(siteDF$DaysTenth[useTP], siteDF$Result[useTP], pch=16)
 
-temp <- 0
-while(max(temp)<0.1) {
-    for (i in 1:10000) {
-        fI <- nrow(dataSet)-11-i
-        tI <- nrow(dataSet)+1-i
-        temp[i] <- sum(dataSet$X_00045_00000[fI:tI],na.rm=TRUE)
-    }
-}
+
+## Plot FC vs....
+dev.new()
+useFC <- which(siteDF$Analyte=="Fecal Coliform")
+par(mfrow=c(3,3))
+plot(siteDF$Coldate[useFC], siteDF$Result[useFC], pch=16)
+plot(siteDF$Rain6[useFC], siteDF$Result[useFC], pch=16)
+plot(siteDF$Rain12[useFC], siteDF$Result[useFC], pch=16)
+plot(siteDF$Rain24[useFC], siteDF$Result[useFC], pch=16)
+plot(siteDF$Rain36[useFC], siteDF$Result[useFC], pch=16)
+plot(siteDF$Rain30min6hr[useFC], siteDF$Result[useFC], pch=16)
+plot(siteDF$Rain30min12hr[useFC], siteDF$Result[useFC], pch=16)
+plot(siteDF$DaysTenth[useFC], siteDF$Result[useFC], pch=16)
 
 
-rollapply(data=dataSet$X_00045_00000, width=20, FUN=sum)
+## Plot Lead vs....
+dev.new()
+usePB <- which(siteDF$Analyte=="Lead")
+par(mfrow=c(3,3))
+plot(siteDF$Coldate[usePB], siteDF$Result[usePB], pch=16)
+plot(siteDF$Rain6[usePB], siteDF$Result[usePB], pch=16)
+plot(siteDF$Rain12[usePB], siteDF$Result[usePB], pch=16)
+plot(siteDF$Rain24[usePB], siteDF$Result[usePB], pch=16)
+plot(siteDF$Rain36[usePB], siteDF$Result[usePB], pch=16)
+plot(siteDF$Rain30min6hr[usePB], siteDF$Result[usePB], pch=16)
+plot(siteDF$Rain30min12hr[usePB], siteDF$Result[usePB], pch=16)
+plot(siteDF$DaysTenth[usePB], siteDF$Result[usePB], pch=16)
+
